@@ -1,17 +1,22 @@
 package entity;
 
+import item.*;
+
 import processing.core.PApplet;
 
 public class Adventurer extends Entity {
 	
 	private Inventory inventory;
-	private int i;
 	
 	public Adventurer(int x, int y, int health, int maxHealth) {
-		super(x, y, health, maxHealth);
-		inventory = new Inventory();
+		super(x, y, health, maxHealth, 10, 0);
+		Item[] items = new Item[] {new Item("Sword"), new Item("Armor")};
+		inventory = new Inventory(items);
 	}
 	
+	public void draw(PApplet marker) {
+		marker.circle(marker.width/2, marker.height/2, 20);
+	}
 	public void drawInventory(PApplet marker) {
 		marker.fill(0);
 		marker.rect(436, 0, 162, 108);
@@ -22,11 +27,17 @@ public class Adventurer extends Entity {
 
 class Inventory {
 	
-	public Inventory() {
-		
+	private Item[] item;
+	
+	public Inventory(Item[] item) {
+		this.item = item;
 	}
 	
 	public String toString() {
-		return "The inventory is empty";
+		String out = "Items:\n";
+		for(int i = 0; i < item.length; i++) {
+			out += item[i].toString()+"\n";
+		}
+		return out;
 	}
 }

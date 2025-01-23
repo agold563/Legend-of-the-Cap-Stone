@@ -9,6 +9,7 @@ public class Game extends PApplet {
 	
 	private World world;
 	private Adventurer creature;
+	private Enemy joe;
 	private boolean debug;
 	private int frameCount;
 	private int framesSinceMovement;
@@ -16,6 +17,7 @@ public class Game extends PApplet {
 	public Game() {
 		world = new World(30);
 		creature = new Adventurer(5, 5, 100, 100);
+		joe = new Enemy(20, 20, 100, 100);
 		frameCount = 0;
 		framesSinceMovement = 0;
 	}
@@ -29,11 +31,12 @@ public class Game extends PApplet {
 		world.draw(this, debug);
 		creature.draw(this);
 		creature.drawInventory(this);
+		joe.draw(this, creature.getX(), creature.getY());
 		if(debug) {
 			fill(0, 0, 0);
 			rect(0, 0, 216, 54);
 			fill(255, 255, 255);
-			text("Pos: "+creature.getX()+" "+creature.getY(), 5, 30);
+			text("Pos: "+(joe.getX()-5)+" "+(joe.getY()-5), 5, 30);
 			text("Hp: "+creature.getHealth(), 60, 30);
 			text(frameCount+"", 110, 30);
 			text(frameRate+"", 160, 30);
@@ -53,6 +56,7 @@ public class Game extends PApplet {
 					creature.setX(creature.getX()-1);
 					world.moveCamera(-1, 0);
 					framesSinceMovement = 0;
+					joe.follow(creature);
 				}
 			}
 		}else if(keyCode == 68) {
@@ -61,6 +65,7 @@ public class Game extends PApplet {
 					creature.setX(creature.getX()+1);
 					world.moveCamera(1, 0);
 					framesSinceMovement = 0;
+					joe.follow(creature);
 				}
 			}
 		}else if(keyCode == 83) {
@@ -69,6 +74,7 @@ public class Game extends PApplet {
 					creature.setY(creature.getY()+1);
 					world.moveCamera(0, 1);
 					framesSinceMovement = 0;
+					joe.follow(creature);
 				}
 			}
 		}else if(keyCode == 87) {
@@ -77,6 +83,7 @@ public class Game extends PApplet {
 					creature.setY(creature.getY()-1);
 					world.moveCamera(0, -1);
 					framesSinceMovement = 0;
+					joe.follow(creature);
 				}
 			}
 		}else if(keyCode == 88) {
